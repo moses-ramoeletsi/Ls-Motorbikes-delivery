@@ -2,6 +2,9 @@
 session_start();
 include 'connection.php';
 
+// Check if the modal should be hidden
+$hideEditModal = isset($_SESSION['hide_edit_modal']) ? $_SESSION['hide_edit_modal'] : false;
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -18,10 +21,14 @@ if ($result_user->num_rows > 0) {
     echo "Username: " . $user['username'] . "<br>";
     echo "Email: " . $user['email'] . "<br>";
 
-    echo '<a href="signout.php">Sign Out</a>';
+    echo '<a href="signout.php">Sign Out</a> .<br>';
+    echo '<a href="dashboard.php">Back</a>';
 } else {
     echo "User not found!";
 }
+
+// Set the session variable to hide the edit modal
+$_SESSION['hide_edit_modal'] = true;
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +68,7 @@ if ($result_user->num_rows > 0) {
         ?>
     </div>
 
-    <div id="editModal" class="modal">
+    <div id="editModal" class="modal" <?php echo $hideEditModal ? 'style="display:none;"' : ''; ?>>
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
             <h2>Edit Delivery Category</h2>
@@ -82,6 +89,12 @@ if ($result_user->num_rows > 0) {
         </div>
     </div>
 
+    <!-- Script to hide the edit modal on page reload -->
+    <script>
+        if (performance.navigation.type === 1) {
+            document.getElementById('editModal').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>
