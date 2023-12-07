@@ -1,0 +1,11 @@
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 95%;
+}
