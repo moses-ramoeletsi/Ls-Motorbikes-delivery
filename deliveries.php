@@ -31,6 +31,7 @@ if ($result_user->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Deliveries</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
 
@@ -44,12 +45,14 @@ if ($result_user->num_rows > 0) {
 
         if ($result_user_deliveries->num_rows > 0) {
             while ($delivery = $result_user_deliveries->fetch_assoc()) {
-                echo '<div class="card">';
+                echo '<div class="card" id="deliveryCard_' . $delivery['id'] . '">';
                 echo "<h3>Delivery ID: " . $delivery['id'] . "</h3>";
                 echo "<p>Bike ID: " . $delivery['bike_id'] . "</p>";
                 echo "<p>Delivery Category: " . $delivery['delivery_category'] . "</p>";
                 echo "<p>Delivery Location: " . $delivery['delivery_location'] . "</p>";
-                // Add more details as needed
+
+                echo '<button onclick="editDelivery(' . $delivery['id'] . ')">Edit</button>';                
+                echo '<button onclick="deleteDelivery(' . $delivery['id'] . ')">Delete</button>';
                 echo "</div>";
             }
         } else {
@@ -57,6 +60,28 @@ if ($result_user->num_rows > 0) {
         }
         ?>
     </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+            <h2>Edit Delivery Category</h2>
+            <form id="editForm">
+                <label for="selectCategory">Choose a category:</label>
+                <select id="selectCategory" name="category">
+                    <option value="food_delivery">Food Delivery</option>
+                    <option value="grocery_delivery">Grocery Delivery</option>
+                    <option value="package_delivery">Package Delivery</option>
+                    <!-- You can add more options as needed -->
+                </select>
+                <br>
+                <p>Or enter a custom category:</p>
+                <input type="text" id="customCategory" name="customCategory" placeholder="Custom Category">
+                <br>
+                <input type="submit" value="Save">
+            </form>
+        </div>
+    </div>
+
 
 </body>
 </html>
