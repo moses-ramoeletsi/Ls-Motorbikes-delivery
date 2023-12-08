@@ -2,7 +2,6 @@
 session_start();
 include 'connection.php';
 
-// Check if the modal should be hidden
 $hideEditModal = isset($_SESSION['hide_edit_modal']) ? $_SESSION['hide_edit_modal'] : false;
 
 if (!isset($_SESSION['user_id'])) {
@@ -27,7 +26,6 @@ if ($result_user->num_rows > 0) {
     echo "User not found!";
 }
 
-// Set the session variable to hide the edit modal
 $_SESSION['hide_edit_modal'] = true;
 ?>
 
@@ -46,7 +44,6 @@ $_SESSION['hide_edit_modal'] = true;
 
     <div class="card-container">
         <?php
-        // Display deliveries for the current user in cards
         $sql_user_deliveries = "SELECT * FROM delivery_info WHERE user_id = '$user_id'";
         $result_user_deliveries = $conn->query($sql_user_deliveries);
 
@@ -57,6 +54,8 @@ $_SESSION['hide_edit_modal'] = true;
                 echo "<p>Bike ID: " . $delivery['bike_id'] . "</p>";
                 echo "<p>Delivery Category: " . $delivery['delivery_category'] . "</p>";
                 echo "<p>Delivery Location: " . $delivery['delivery_location'] . "</p>";
+                echo "<p>Date oF Order: " . $delivery['delivery_time'] . "</p>";
+                echo "<p>Delivery Status: " . $delivery['delivery_status'] . "</p>";
 
                 echo '<button onclick="editDelivery(' . $delivery['id'] . ')">Edit</button>';                
                 echo '<button onclick="deleteDelivery(' . $delivery['id'] . ')">Delete</button>';
@@ -78,7 +77,6 @@ $_SESSION['hide_edit_modal'] = true;
                     <option value="food_delivery">Food Delivery</option>
                     <option value="grocery_delivery">Grocery Delivery</option>
                     <option value="package_delivery">Package Delivery</option>
-                    <!-- You can add more options as needed -->
                 </select>
                 <br>
                 <p>Or enter a custom category:</p>
@@ -89,7 +87,6 @@ $_SESSION['hide_edit_modal'] = true;
         </div>
     </div>
 
-    <!-- Script to hide the edit modal on page reload -->
     <script>
         if (performance.navigation.type === 1) {
             document.getElementById('editModal').style.display = 'none';
@@ -100,6 +97,5 @@ $_SESSION['hide_edit_modal'] = true;
 </html>
 
 <?php
-// Close the database connection
 $conn->close();
 ?>
