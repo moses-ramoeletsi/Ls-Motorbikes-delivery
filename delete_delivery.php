@@ -10,11 +10,9 @@ if (!isset($_SESSION['user_id'])) {
 if (isset($_GET['delivery_id'])) {
     $deliveryId = $_GET['delivery_id'];
 
-    // Perform the deletion
     $sql_delete = "DELETE FROM delivery_info WHERE id = '$deliveryId' AND user_id = '{$_SESSION['user_id']}'";
     $result_delete = $conn->query($sql_delete);
 
-    // You can check if the deletion was successful and return a response
     if ($result_delete) {
         echo "Delivery deleted successfully!";
     } else {
